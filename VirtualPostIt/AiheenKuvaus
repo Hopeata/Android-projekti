@@ -1,0 +1,6 @@
+Virtual PostIt - Aiheen kuvaus
+
+Nykyopiskelijalla on niin paljon muistettavia pieniä ja isompiakin asioita, ettei kaikesta voi pysyä kärryillä. 
+Siihen pulmaan kehitänkin virtuaaliset PostIt-laput, joihin voi listata muistettavia asioita (esimerkiksi muistutus
+kirjan hakemisesta kirjastosta). Lappuihin voi liittää myös paikannuksen Google Mapilla (esimerkiksi kirjaston sijainnin)
+sekä ajan ja mahdollisuuksien mukaan ehkä muita toiminnallisuuksia (jonkinnäköinen teematagi tai linkittymä Google Calenderiin).
