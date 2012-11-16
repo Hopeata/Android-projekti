@@ -1,0 +1,2 @@
+C:\Android\android-sdk\platform-tools>adb -s emulator-5554 shell
+sqlite3 /data/data/android.virtualpostit/databases/PostIt.s3db

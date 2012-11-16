@@ -1,14 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    android:id="@+id/RLayout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <TextView
+        android:id="@+id/lblNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Note"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        />
+    <EditText
+        android:id="@+id/txtNote"
+        android:layout_width="fill_parent"
+        android:layout_height="170px"
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/lblNote"
+        android:layout_below="@+id/lblNote"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world"
-        tools:context=".PostIt" />
-
+        />
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="125px"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_below="@+id/txtNote"
+        android:layout_alignRight="@+id/txtNote"
+        />
+     <Button
+        android:id="@+id/btnCoordinates"
+        android:layout_width="125px"
+        android:layout_height="wrap_content"
+        android:text="Add place"
+        android:layout_below="@+id/txtNote"
+        android:layout_alignRight="@+id/txtNote"
+        android:layout_alignLeft="@+id/btnSave"
+        android:layout_centerHorizontal="true"
+        
+        />
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="124px"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_below="@+id/txtNote"
+        android:layout_alignLeft="@+id/txtNote"
+        />
 </RelativeLayout>
