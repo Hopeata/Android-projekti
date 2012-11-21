@@ -20,6 +20,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".NoteList"
+            android:label="@string/title_activity_note_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.virtualpostit.PostIt" />
+        </activity>
+        <activity
+            android:name=".NoteActivity"
+            android:label="@string/title_activity_note" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.virtualpostit.PostIt" />
+        </activity>
+
     </application>
 
 </manifest>
