@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PostIt extends ListActivity {
+public class PostIt extends Activity {
 
 	  private ListView mainListView ;  
 	  private NoteArrayAdapter listAdapter ; 
