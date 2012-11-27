@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class NoteActivity extends Activity {
-	
-    @Override
+
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
         
@@ -35,11 +35,12 @@ public class NoteActivity extends Activity {
 				
 				if (id == -1) {
 					PostIt.POST_IT_SERVICE.makeNewNote(editNote.getText().toString());
-					Intent intent = new Intent(NoteActivity.this, PostIt.class);
-					startActivity(intent);
-					finish();
+				} else {
+					note.setContent(editNote.getText().toString());
+					PostIt.POST_IT_SERVICE.updateNote(note);
 				}
-
+				finish();
+					
 			}
 		});
 		
@@ -51,9 +52,9 @@ public class NoteActivity extends Activity {
 		});
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_note, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_note, menu);
+		return true;
+	}
 }

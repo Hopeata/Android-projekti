@@ -37,6 +37,10 @@ public class PostIt extends Activity {
 
 		setContentView(R.layout.activity_post_it);
 
+	}
+
+	@Override
+	protected void onResume() {
 		// Find the ListView resource.
 		mainListView = (ListView) findViewById(R.id.mainListView);
 
@@ -62,14 +66,7 @@ public class PostIt extends Activity {
 			}
 		});
 
-	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-	        finish();
-	        return true;
-	    }		return super.onKeyDown(keyCode, event);
+		super.onResume();
 	}
 
 	@Override

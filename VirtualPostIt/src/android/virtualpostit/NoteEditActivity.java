@@ -40,6 +40,7 @@ public class NoteEditActivity extends Activity {
 						NoteActivity.class);
 				intent.putExtra(EditID, note.getId());
 				startActivity(intent);
+				finish();
 			}
 		});
 
@@ -47,8 +48,6 @@ public class NoteEditActivity extends Activity {
 
 			public void onClick(View v) {
 				PostIt.POST_IT_SERVICE.deleteNote(note);
-				Intent intent = new Intent(NoteEditActivity.this, PostIt.class);
-				startActivity(intent);
 				finish();
 			}
 		});

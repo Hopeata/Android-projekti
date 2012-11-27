@@ -57,15 +57,15 @@ public class StorageManager extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	public int UpdateNote(Note note) {
+	public int updateNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		cv.put(NOTE_TABLE_NOTE, note.getContent());
-		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(note.getTimestamp()));
+		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(new Date()));
 		return db.update(NOTE_TABLE, cv, NOTE_TABLE_ID + " = ?",
 				new String[] { String.valueOf(note.getId()) });
 	}
 
-	public void DeleteNote(Note note) {
+	public void deleteNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(NOTE_TABLE, NOTE_TABLE_ID + " = ?",
 				new String[] { String.valueOf(note.getId()) });

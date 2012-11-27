@@ -28,7 +28,11 @@ public class PostItService {
 	}
 
 	public void deleteNote(Note note) {
-		sm.DeleteNote(note);
+		sm.deleteNote(note);
+	}
+	
+	public void updateNote(Note note) {
+		sm.updateNote(note);
 	}
 
 }
