@@ -2,14 +2,15 @@ package android.virtualpostit;
 
 import java.util.Date;
 
-public class Note {
+public class Note implements Comparable<Note> {
+	
+	private int id;
+	private String content = "";
+	private Date timestamp;
 
-	String note = "";
-	Date timestamp;
-	int id = 0;
-
-	public Note(int id, String note, Date timestamp) {
-		this.note = note;
+	public Note(int id, String content, Date timestamp) {
+		this.id = id;
+		this.content = content;
 		this.timestamp = timestamp;
 	}
 
@@ -18,12 +19,21 @@ public class Note {
 		return id;
 	}
 
-	public String getText() {
-		return note;
+	public String getContent() {
+		return content;
 	}
 
 	public Date getTimestamp() {
 		return timestamp;
+	}
+	
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+
+	public int compareTo(Note another) {
+		return timestamp.compareTo(another.timestamp) * -1;
 	}
 
 }

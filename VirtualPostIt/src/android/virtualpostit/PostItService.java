@@ -14,12 +14,11 @@ public class PostItService {
 		sm = new StorageManager(context);
 	}
 
-	public Note getNote() {
-		return null;
+	public Note getNote(int id) {
+		return sm.getNote(id);
 	}
 
 	public List<Note> getAllNotes() {
-
 		return sm.getAllNotes();
 	}
 

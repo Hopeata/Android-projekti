@@ -2,31 +2,51 @@ package android.virtualpostit;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class NoteActivity extends Activity {
 	
-	private Button save;
-	private PostItService pi;
-	private static final String TAG = "PostIt";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);        
         
-        setContentView(R.layout.activity_note);
-		pi = new PostItService(getApplicationContext());
-		save = (Button) findViewById(R.id.btnCancel);
+        setContentView(R.layout.activity_note);	
+        
+		Intent intent = getIntent();
+		final int id = intent.getIntExtra(NoteEditActivity.EditID, -1);
+        final Note note = PostIt.POST_IT_SERVICE.getNote(id);
+		Button save = (Button) findViewById(R.id.btnSave);
+		Button cancel = (Button) findViewById(R.id.btnCancel);
+
+		final EditText editNote = (EditText) findViewById(R.id.txtNote);
+		
+		if (id != -1) {
+			editNote.setText(note.getContent());						
+		}
+		
 		save.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				//Log.v(TAG, "Count 1: " + pi.getAllNotes().size());
-				pi.makeNewNote("hei");
 				
-				Log.v(TAG, "Count 2	: " + pi.getAllNotes().size());
+				if (id == -1) {
+					PostIt.POST_IT_SERVICE.makeNewNote(editNote.getText().toString());
+					Intent intent = new Intent(NoteActivity.this, PostIt.class);
+					startActivity(intent);
+					finish();
+				}
+
+			}
+		});
+		
+		cancel.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				finish();
 			}
 		});
     }

@@ -3,6 +3,7 @@ package android.virtualpostit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	public void insertNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		cv.put(NOTE_TABLE_NOTE, note.getText());
+		cv.put(NOTE_TABLE_NOTE, note.getContent());
 		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(note.getTimestamp()));
 		db.insert(NOTE_TABLE, null, cv);
 		db.close();
@@ -58,7 +59,7 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	public int UpdateNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		cv.put(NOTE_TABLE_NOTE, note.getText());
+		cv.put(NOTE_TABLE_NOTE, note.getContent());
 		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(note.getTimestamp()));
 		return db.update(NOTE_TABLE, cv, NOTE_TABLE_ID + " = ?",
 				new String[] { String.valueOf(note.getId()) });
@@ -70,7 +71,24 @@ public class StorageManager extends SQLiteOpenHelper {
 				new String[] { String.valueOf(note.getId()) });
 		db.close();
 	}
-
+	
+	public Note getNote(int id) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Note note = null;
+		Cursor cur = db.rawQuery("SELECT " + NOTE_TABLE_ID + ", " + NOTE_TABLE_NOTE +
+				", " + NOTE_TABLE_TS + " from " + NOTE_TABLE + " where " + NOTE_TABLE_ID + "=" + id + "", null);
+		if (cur != null && cur.moveToFirst()) {
+			try {
+				note = populateNote(cur);
+			} catch (Exception e) {
+				// Should not end up here
+				throw new RuntimeException(e);
+			}
+			cur.close();
+		}	
+		return note;
+	}
+	
 	public List<Note> getAllNotes() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		List<Note> allNotes = new ArrayList<Note>();
@@ -86,11 +104,14 @@ public class StorageManager extends SQLiteOpenHelper {
 				// Should not end up here
 				throw new RuntimeException(e);
 			}
-			cur.close();
+			cur.close();			
 		}	
+		Collections.sort(allNotes);
 		return allNotes;
 
 	}
+	
+	
 
 	private Note populateNote(Cursor cursor) throws ParseException {
 		int idIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_ID);
@@ -100,6 +121,5 @@ public class StorageManager extends SQLiteOpenHelper {
 		String note = cursor.getString(noteIndex);
 		Date ts = SQL_DATE_FORMATTER.parse(cursor.getString(tsIndex));
 		return new Note(id, note, ts);
-
 	}
 }

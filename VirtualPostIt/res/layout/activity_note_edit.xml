@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/viewNote"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        tools:context=".NoteEditActivity" />
+    
+     <Button
+        android:id="@+id/btnEdit"
+        android:layout_width="125px"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:layout_below="@+id/viewNote"
+        android:layout_alignLeft="@+id/viewNote"
+        />
+     <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="125px"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_below="@+id/viewNote"
+        android:layout_centerHorizontal="true"
+        />
+      <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="125px"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_below="@+id/viewNote"
+        android:layout_alignRight="@+id/viewNote"
+        />
+</RelativeLayout>

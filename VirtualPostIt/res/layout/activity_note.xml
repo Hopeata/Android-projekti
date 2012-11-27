@@ -21,7 +21,7 @@
         android:layout_below="@+id/lblNote"
         android:layout_centerHorizontal="true"
         />
-<!--    <Button
+    <Button
         android:id="@+id/btnSave"
         android:layout_width="125px"
         android:layout_height="wrap_content"
@@ -29,7 +29,6 @@
         android:layout_below="@+id/txtNote"
         android:layout_alignLeft="@+id/txtNote"
         />
-       -->
      <Button
         android:id="@+id/btnCoordinates"
         android:layout_width="125px"

@@ -27,7 +27,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="android.virtualpostit.PostIt" />
         </activity>
-
+        <activity
+            android:name=".NoteEditActivity"
+            android:label="@string/title_activity_note_edit" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.virtualpostit.NoteActivity" />
+        </activity>
     </application>
 
 </manifest>
