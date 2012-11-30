@@ -11,6 +11,8 @@ import android.widget.EditText;
 
 public class NoteActivity extends Activity {
 
+
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
@@ -19,10 +21,9 @@ public class NoteActivity extends Activity {
         
 		Intent intent = getIntent();
 		final int id = intent.getIntExtra(NoteEditActivity.EditID, -1);
-        final Note note = PostIt.POST_IT_SERVICE.getNote(id);
+	    final Note note = PostIt.POST_IT_SERVICE.getNote(id);
 		Button save = (Button) findViewById(R.id.btnSave);
 		Button cancel = (Button) findViewById(R.id.btnCancel);
-
 		final EditText editNote = (EditText) findViewById(R.id.txtNote);
 		
 		if (id != -1) {

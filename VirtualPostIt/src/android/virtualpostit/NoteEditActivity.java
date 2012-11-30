@@ -1,5 +1,7 @@
 package android.virtualpostit;
 
+import java.text.SimpleDateFormat;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +15,7 @@ import android.support.v4.app.NavUtils;
 public class NoteEditActivity extends Activity {
 
 	public static String EditID = "android.virtualpostit.NoteEditActivity.EditID";
+	private static final SimpleDateFormat SDF = new SimpleDateFormat("dd.MM.yyyy HH:mm"); 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,9 +27,11 @@ public class NoteEditActivity extends Activity {
 		final Note note = PostIt.POST_IT_SERVICE.getNote(id);
 
 		TextView textView = (TextView) findViewById(R.id.viewNote);
+		TextView timestampView = (TextView) findViewById(R.id.lblTimestamp);
 		textView.setTextSize(40);
 		if (note != null) {
-			textView.setText(note.getContent());
+			textView.setText(note.getContent());			
+			timestampView.setText(SDF.format(note.getTimestamp()));
 		}
 
 		Button edit = (Button) findViewById(R.id.btnEdit);

@@ -22,11 +22,11 @@ public class StorageManager extends SQLiteOpenHelper {
 	private static final String POSTIT_DB_NAME = "PostIt.s3db";
 	private static final String NOTE_TABLE = "Note";
 	private static final String NOTE_TABLE_ID = "Id";
-	private static final String NOTE_TABLE_NOTE = "Note";
+	private static final String NOTE_TABLE_CONTENT = "Note";
 	private static final String NOTE_TABLE_TS = "Timestamp";
 	private final String CREATE_NOTE_TABLE = "create table " + NOTE_TABLE
 			+ " (" + NOTE_TABLE_ID + " integer primary key autoincrement, "
-			+ NOTE_TABLE_NOTE + " text not null, " + NOTE_TABLE_TS
+			+ NOTE_TABLE_CONTENT + " text not null, " + NOTE_TABLE_TS
 			+ " text not null);";
 	ContentValues cv = new ContentValues();
 
@@ -36,8 +36,6 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// Creating Table
-		
 		db.execSQL(CREATE_NOTE_TABLE);
 		db.close();
 	}
@@ -51,7 +49,7 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	public void insertNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		cv.put(NOTE_TABLE_NOTE, note.getContent());
+		cv.put(NOTE_TABLE_CONTENT, note.getContent());
 		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(note.getTimestamp()));
 		db.insert(NOTE_TABLE, null, cv);
 		db.close();
@@ -59,7 +57,7 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	public int updateNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		cv.put(NOTE_TABLE_NOTE, note.getContent());
+		cv.put(NOTE_TABLE_CONTENT, note.getContent());
 		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(new Date()));
 		return db.update(NOTE_TABLE, cv, NOTE_TABLE_ID + " = ?",
 				new String[] { String.valueOf(note.getId()) });
@@ -75,7 +73,7 @@ public class StorageManager extends SQLiteOpenHelper {
 	public Note getNote(int id) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		Note note = null;
-		Cursor cur = db.rawQuery("SELECT " + NOTE_TABLE_ID + ", " + NOTE_TABLE_NOTE +
+		Cursor cur = db.rawQuery("SELECT " + NOTE_TABLE_ID + ", " + NOTE_TABLE_CONTENT +
 				", " + NOTE_TABLE_TS + " from " + NOTE_TABLE + " where " + NOTE_TABLE_ID + "=" + id + "", null);
 		if (cur != null && cur.moveToFirst()) {
 			try {
@@ -92,7 +90,7 @@ public class StorageManager extends SQLiteOpenHelper {
 	public List<Note> getAllNotes() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		List<Note> allNotes = new ArrayList<Note>();
-		Cursor cur = db.rawQuery("SELECT " + NOTE_TABLE_ID + ", " + NOTE_TABLE_NOTE +
+		Cursor cur = db.rawQuery("SELECT " + NOTE_TABLE_ID + ", " + NOTE_TABLE_CONTENT +
 				", " + NOTE_TABLE_TS + " from " + NOTE_TABLE, null);
 
 		if (cur != null && cur.moveToFirst()) {
@@ -115,7 +113,7 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	private Note populateNote(Cursor cursor) throws ParseException {
 		int idIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_ID);
-		int noteIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_NOTE);
+		int noteIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_CONTENT);
 		int tsIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_TS);
 		int id = cursor.getInt(idIndex);
 		String note = cursor.getString(noteIndex);
