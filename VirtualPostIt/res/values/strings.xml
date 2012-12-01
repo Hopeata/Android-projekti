@@ -6,5 +6,6 @@
     <string name="title_activity_post_it">PostIt</string>
     <string name="title_activity_note">My note</string>
     <string name="title_activity_note_edit">Edit the note</string>
+    <string name="title_activity_gmap">Map</string>
 
 </resources>

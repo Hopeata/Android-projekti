@@ -23,6 +23,7 @@ public class NoteActivity extends Activity {
 		final int id = intent.getIntExtra(NoteEditActivity.EditID, -1);
 	    final Note note = PostIt.POST_IT_SERVICE.getNote(id);
 		Button save = (Button) findViewById(R.id.btnSave);
+		Button coordinates = (Button) findViewById(R.id.btnCoordinates);
 		Button cancel = (Button) findViewById(R.id.btnCancel);
 		final EditText editNote = (EditText) findViewById(R.id.txtNote);
 		
@@ -45,6 +46,15 @@ public class NoteActivity extends Activity {
 			}
 		});
 		
+/*		coordinates.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent(NoteActivity.this,
+						GMapActivity.class);
+				startActivity(intent);				
+			}
+		});
+*/
 		cancel.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {

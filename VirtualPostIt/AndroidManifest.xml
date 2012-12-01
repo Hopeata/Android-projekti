@@ -34,6 +34,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="android.virtualpostit.NoteActivity" />
         </activity>
+        <activity
+            android:name=".GMapActivity"
+            android:label="@string/title_activity_gmap" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.virtualpostit.PostIt" />
+        </activity>
+
+        <uses-library android:name="com.google.android.maps" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

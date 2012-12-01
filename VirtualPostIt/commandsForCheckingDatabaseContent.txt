@@ -1,2 +1,7 @@
 C:\Android\android-sdk\platform-tools>adb -s emulator-5554 shell
 sqlite3 /data/data/android.virtualpostit/databases/PostIt.s3db
+
+Client ID:	
+1045186512666.apps.googleusercontent.com
+Redirect URIs:	urn:ietf:wg:oauth:2.0:oob
+http://localhost

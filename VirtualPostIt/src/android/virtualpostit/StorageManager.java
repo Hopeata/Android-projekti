@@ -37,7 +37,6 @@ public class StorageManager extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_NOTE_TABLE);
-		db.close();
 	}
 
 	
