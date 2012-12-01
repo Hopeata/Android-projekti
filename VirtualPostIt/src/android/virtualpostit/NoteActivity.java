@@ -26,6 +26,7 @@ public class NoteActivity extends Activity {
 		Button coordinates = (Button) findViewById(R.id.btnAddress);
 		Button cancel = (Button) findViewById(R.id.btnCancel);
 		final EditText editNote = (EditText) findViewById(R.id.txtNote);
+		final EditText editAddress = (EditText) findViewById(R.id.txtAddress);
 		
 		if (id != -1) {
 			editNote.setText(note.getContent());						
@@ -36,9 +37,11 @@ public class NoteActivity extends Activity {
 			public void onClick(View v) {
 				
 				if (id == -1) {
-					PostIt.POST_IT_SERVICE.makeNewNote(editNote.getText().toString());
+					PostIt.POST_IT_SERVICE.makeNewNote(editNote.getText().toString(), 
+							editAddress.getText().toString());
 				} else {
 					note.setContent(editNote.getText().toString());
+					note.setAddress(editAddress.getText().toString());
 					PostIt.POST_IT_SERVICE.updateNote(note);
 				}
 				finish();
@@ -49,9 +52,10 @@ public class NoteActivity extends Activity {
 		coordinates.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				Intent intent = new Intent(NoteActivity.this,
+				
+/*				Intent intent = new Intent(NoteActivity.this,
 						GMapActivity.class);
-				startActivity(intent);				
+				startActivity(intent);	*/			
 			}
 		});
 

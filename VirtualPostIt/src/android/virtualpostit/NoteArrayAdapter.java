@@ -14,7 +14,7 @@ public class NoteArrayAdapter extends ArrayAdapter<String> {
 	
 	public NoteArrayAdapter(Context context, List<Note> notes) {
 		super(context, R.layout.list_row);
-		notes.add(0, new Note(-1, "New Note", null));
+		notes.add(0, new Note(-1, "New Note", null, null));
 		for (Note note : notes) {
 			String previewText = note.getTimestamp() != null ? SDF.format(note.getTimestamp()) + " " : "";
 			if (note.getContent().length() > PREVIEW_CONTENT_LENGTH) {

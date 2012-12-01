@@ -24,10 +24,11 @@ public class StorageManager extends SQLiteOpenHelper {
 	private static final String NOTE_TABLE_ID = "Id";
 	private static final String NOTE_TABLE_CONTENT = "Note";
 	private static final String NOTE_TABLE_TS = "Timestamp";
+	private static final String NOTE_TABLE_ADDRESS = "Address";
 	private final String CREATE_NOTE_TABLE = "create table " + NOTE_TABLE
 			+ " (" + NOTE_TABLE_ID + " integer primary key autoincrement, "
 			+ NOTE_TABLE_CONTENT + " text not null, " + NOTE_TABLE_TS
-			+ " text not null);";
+			+ " text not null, " + NOTE_TABLE_ADDRESS + " text);";
 	ContentValues cv = new ContentValues();
 
 	StorageManager(Context context) {
@@ -49,6 +50,7 @@ public class StorageManager extends SQLiteOpenHelper {
 	public void insertNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		cv.put(NOTE_TABLE_CONTENT, note.getContent());
+		cv.put(NOTE_TABLE_ADDRESS, note.getAddress());
 		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(note.getTimestamp()));
 		db.insert(NOTE_TABLE, null, cv);
 		db.close();
@@ -57,6 +59,7 @@ public class StorageManager extends SQLiteOpenHelper {
 	public int updateNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		cv.put(NOTE_TABLE_CONTENT, note.getContent());
+		cv.put(NOTE_TABLE_ADDRESS, note.getAddress());
 		cv.put(NOTE_TABLE_TS, SQL_DATE_FORMATTER.format(new Date()));
 		return db.update(NOTE_TABLE, cv, NOTE_TABLE_ID + " = ?",
 				new String[] { String.valueOf(note.getId()) });
@@ -73,7 +76,7 @@ public class StorageManager extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		Note note = null;
 		Cursor cur = db.rawQuery("SELECT " + NOTE_TABLE_ID + ", " + NOTE_TABLE_CONTENT +
-				", " + NOTE_TABLE_TS + " from " + NOTE_TABLE + " where " + NOTE_TABLE_ID + "=" + id + "", null);
+				", " + NOTE_TABLE_TS + ", " + NOTE_TABLE_ADDRESS + " from " + NOTE_TABLE + " where " + NOTE_TABLE_ID + "=" + id + "", null);
 		if (cur != null && cur.moveToFirst()) {
 			try {
 				note = populateNote(cur);
@@ -90,7 +93,7 @@ public class StorageManager extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		List<Note> allNotes = new ArrayList<Note>();
 		Cursor cur = db.rawQuery("SELECT " + NOTE_TABLE_ID + ", " + NOTE_TABLE_CONTENT +
-				", " + NOTE_TABLE_TS + " from " + NOTE_TABLE, null);
+				", " + NOTE_TABLE_TS + ", " + NOTE_TABLE_ADDRESS + " from " + NOTE_TABLE, null);
 
 		if (cur != null && cur.moveToFirst()) {
 			try {
@@ -114,9 +117,11 @@ public class StorageManager extends SQLiteOpenHelper {
 		int idIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_ID);
 		int noteIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_CONTENT);
 		int tsIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_TS);
+		int addressIndex = cursor.getColumnIndexOrThrow(NOTE_TABLE_ADDRESS);
 		int id = cursor.getInt(idIndex);
 		String note = cursor.getString(noteIndex);
 		Date ts = SQL_DATE_FORMATTER.parse(cursor.getString(tsIndex));
-		return new Note(id, note, ts);
+		String address = cursor.getString(addressIndex);
+		return new Note(id, note, ts, address);
 	}
 }

@@ -22,8 +22,8 @@ public class PostItService {
 		return sm.getAllNotes();
 	}
 
-	public void makeNewNote(String text) {
-		Note note = new Note(-1, text, new Date());
+	public void makeNewNote(String text, String address) {
+		Note note = new Note(-1, text, new Date(), address);
 		sm.insertNote(note);
 	}
 

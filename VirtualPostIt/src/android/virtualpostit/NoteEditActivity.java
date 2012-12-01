@@ -1,10 +1,18 @@
 package android.virtualpostit;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
+import com.google.android.maps.GeoPoint;
+
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,8 +22,10 @@ import android.support.v4.app.NavUtils;
 
 public class NoteEditActivity extends Activity {
 
-	public static String EditID = "android.virtualpostit.NoteEditActivity.EditID";
-	private static final SimpleDateFormat SDF = new SimpleDateFormat("dd.MM.yyyy HH:mm"); 
+	public static final String EditID = "android.virtualpostit.NoteEditActivity.EditID";
+	public static final String ADDRESS = "android.virtualpostit.NoteEditActivity.Address";
+	private static final SimpleDateFormat SDF = new SimpleDateFormat(
+			"dd.MM.yyyy HH:mm");
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,10 +38,25 @@ public class NoteEditActivity extends Activity {
 
 		TextView textView = (TextView) findViewById(R.id.viewNote);
 		TextView timestampView = (TextView) findViewById(R.id.lblTimestamp);
+		TextView addressView = (TextView) findViewById(R.id.lblAddress);
 		textView.setTextSize(40);
+
 		if (note != null) {
-			textView.setText(note.getContent());			
+			textView.setText(note.getContent());
 			timestampView.setText(SDF.format(note.getTimestamp()));
+			final String address = note.getAddress();
+			if (address != null) {
+				addressView.setText(address);
+				addressView.setOnClickListener(new View.OnClickListener() {
+
+					public void onClick(View v) {
+						Intent intent = new Intent(NoteEditActivity.this,
+								GMapActivity.class);
+						intent.putExtra(ADDRESS, address);
+						startActivity(intent); 
+					}
+				});
+			}
 		}
 
 		Button edit = (Button) findViewById(R.id.btnEdit);
@@ -72,10 +97,5 @@ public class NoteEditActivity extends Activity {
 		return true;
 	}
 
-	/*
-	 * @Override public boolean onOptionsItemSelected(MenuItem item) { switch
-	 * (item.getItemId()) { case android.R.id.home:
-	 * NavUtils.navigateUpFromSameTask(this); return true; } return
-	 * super.onOptionsItemSelected(item); }
-	 */
+	
 }

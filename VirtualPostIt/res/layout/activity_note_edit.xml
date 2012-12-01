@@ -11,10 +11,17 @@
         android:layout_alignParentTop="true" />
 
     <TextView
+        android:id="@+id/lblAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblTimestamp"
+        android:clickable="true" />
+
+    <TextView
         android:id="@+id/viewNote"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lblTimestamp"
+        android:layout_below="@+id/lblAddress"
         tools:context=".NoteEditActivity" />
 
     <RelativeLayout
@@ -34,7 +41,7 @@
             android:id="@+id/btnDelete"
             android:layout_width="125px"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"           
+            android:layout_centerHorizontal="true"
             android:text="Delete" />
 
         <Button
