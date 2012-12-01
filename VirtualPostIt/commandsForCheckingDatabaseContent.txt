@@ -1,6 +1,50 @@
 C:\Android\android-sdk\platform-tools>adb -s emulator-5554 shell
 sqlite3 /data/data/android.virtualpostit/databases/PostIt.s3db
 
+C:\Program Files (x86)\Java\jdk1.7.0_03\bin>keytool -v -list -alias androiddebug
+key -keystore c:\android\debug.keystore -storepass android -keypass android
+Alias name: androiddebugkey
+Creation date: 4.11.2012
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Android Debug, O=Android, C=US
+Issuer: CN=Android Debug, O=Android, C=US
+Serial number: 5dbf7cb
+Valid from: Sun Nov 04 21:51:39 EET 2012 until: Tue Oct 28 21:51:39 EET 2042
+Certificate fingerprints:
+         MD5:  24:C3:5E:09:E1:2A:A7:7F:F9:33:45:66:B7:D1:B8:72
+         SHA1: 6E:CA:EF:D3:91:76:D2:70:7D:25:B5:5F:44:1E:87:26:5D:03:C5:62
+         SHA256: 68:A2:2F:E8:26:CC:DA:6F:28:33:5D:14:B2:49:4E:CD:B0:9C:BF:B6:89:
+87:95:0B:80:CB:1F:F4:EB:A9:D8:F8
+         Signature algorithm name: SHA256withRSA
+         Version: 3
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: CA 78 AC E7 F2 79 48 2D   5B 15 1F 7E 01 AD ED 7F  .x...yH-[.......
+0010: 2A 2C 4F 81                                        *,O.
+]
+]
+
+
+C:\Program Files (x86)\Java\jdk1.7.0_03\bin>
+
+Kiitos, ett‰ hankit Android Maps -sovellusliittym‰n avaimen!
+Avaimesi on:
+0-NSvRDl66D96oVA96czhH9hfMZ6N-O8reS75pg
+T‰m‰ avain toimii kaikissa varmenteellasi allekirjoitetuilla sovelluksissa, joiden sormenj‰lki on:
+24:C3:5E:09:E1:2A:A7:7F:F9:33:45:66:B7:D1:B8:72
+T‰ss‰ esimerkki xml-suunnitelmasta, jolla p‰‰set alkuun matkallasi:
+              <com.google.android.maps.MapView
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 android:apiKey="0-NSvRDl66D96oVA96czhH9hfMZ6N-O8reS75pg"
+                 />
+         
+         
 Client ID:	
 1045186512666.apps.googleusercontent.com
 Redirect URIs:	urn:ietf:wg:oauth:2.0:oob
