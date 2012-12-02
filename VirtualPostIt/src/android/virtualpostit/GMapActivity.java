@@ -1,13 +1,16 @@
 package android.virtualpostit;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,14 +20,21 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 public class GMapActivity extends MapActivity {
 
+	public static final String ACTION_TYPE = "android.virtualpostit.GMapActivity.actionType";
+	public static final String GET_LOCATION_ACTION = "get location";
+	public static final String SELECT_LOCATION_ACTION = "select location";
 	private static Geocoder coder;
 	private MapView mapView;
-	private GeoPoint p = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,23 +44,39 @@ public class GMapActivity extends MapActivity {
 		mapView = (MapView) findViewById(R.id.map_view);
 		mapView.setBuiltInZoomControls(true);
 
-		coder = new Geocoder(this);
 		Intent intent = getIntent();
-		String address = intent.getStringExtra(NoteEditActivity.ADDRESS);
+		String action = intent.getStringExtra(ACTION_TYPE);
 
-		p = getLocationFromAddress(address);
-		MapController mc = mapView.getController();
+		List<Overlay> listOfOverlays = mapView.getOverlays();
+		listOfOverlays.clear();
 
-		mc.animateTo(p);
-		mc.setZoom(17);
-		
-        //---Add a location marker---
-        MapOverlay mapOverlay = new MapOverlay();
-        List<Overlay> listOfOverlays = mapView.getOverlays();
-        listOfOverlays.clear();
-        listOfOverlays.add(mapOverlay);
-        
-		mapView.invalidate();
+		coder = new Geocoder(this);
+
+		if (action.equals(GET_LOCATION_ACTION)) {
+
+			String address = intent.getStringExtra(NoteViewActivity.ADDRESS);
+			// String note = intent.getStringExtra(NoteViewActivity.CONTENT);
+
+			GeoPoint p = getLocationFromAddress(address);
+			MapController mc = mapView.getController();
+
+			mc.animateTo(p);
+			mc.setZoom(17);
+
+			// ---Add a location marker---
+			MapOverlay mapOverlay = new MapOverlay();
+			mapOverlay.p = p;
+			listOfOverlays.add(mapOverlay);
+
+			mapView.invalidate();
+
+		} else if (action.equals(SELECT_LOCATION_ACTION)) {
+
+			SelectionMapOverlay selectionMapOverlay = new SelectionMapOverlay();
+			selectionMapOverlay.setGestureDetector(new GestureDetector(new MapTouchDetector()));
+			listOfOverlays.add(selectionMapOverlay);
+
+		}
 
 	}
 
@@ -91,6 +117,9 @@ public class GMapActivity extends MapActivity {
 	}
 
 	class MapOverlay extends Overlay {
+
+		private GeoPoint p = null;
+
 		@Override
 		public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
 				long when) {
@@ -105,6 +134,76 @@ public class GMapActivity extends MapActivity {
 					R.drawable.pushpin);
 			canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 32, null);
 			return true;
+		}
+	}
+
+	class SelectionMapOverlay extends Overlay {
+
+		private GestureDetector gestureDetector;
+
+		@Override
+		public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+			// when the user lifts its finger
+			if (gestureDetector.onTouchEvent(event)) {
+				return true;
+			}
+
+			return false;
+		}
+
+		public GestureDetector getGestureDetector() {
+			return gestureDetector;
+		}
+
+		public void setGestureDetector(GestureDetector gestureDetector) {
+			this.gestureDetector = gestureDetector;
+		}
+	}
+
+	class MapTouchDetector extends SimpleOnGestureListener {
+
+		@Override
+		public boolean onSingleTapConfirmed(MotionEvent event) {
+
+			GeoPoint p = mapView.getProjection().fromPixels((int) event.getX(),
+					(int) event.getY());
+
+			// ---reverse geocoding---
+
+			List<Address> addresses;
+			try {
+				addresses = coder.getFromLocation(p.getLatitudeE6() / 1E6,
+						p.getLongitudeE6() / 1E6, 1);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+			String add = "";
+			if (addresses.size() > 0) {
+				int lastIndex = addresses.get(0).getMaxAddressLineIndex();
+				for (int i = 0; i < lastIndex; i++) {
+					add += addresses.get(0).getAddressLine(i);
+					if (i < lastIndex - 1) {
+						add += ", ";
+					}
+				}
+			}
+			Intent returnIntent = new Intent(GMapActivity.this, NoteEditActivity.class);
+			returnIntent.putExtra(NoteEditActivity.ADDRESS, add);
+			setResult(NoteEditActivity.SELECT_LOCATION_REQUEST_CODE, returnIntent);
+			finish();
+			return true;
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
+			return super.onFling(e1, e2, velocityX, velocityY);
+		}
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return false;
 		}
 	}
 

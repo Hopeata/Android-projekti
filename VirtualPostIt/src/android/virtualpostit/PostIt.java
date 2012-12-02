@@ -56,9 +56,9 @@ public class PostIt extends Activity {
 				Intent intent;
 				int noteID = listAdapter.getNote(position).getId();
 				if (noteID == -1) {
-					intent = new Intent(PostIt.this, NoteActivity.class);
-				} else {
 					intent = new Intent(PostIt.this, NoteEditActivity.class);
+				} else {
+					intent = new Intent(PostIt.this, NoteViewActivity.class);
 
 				}
 				intent.putExtra(ID, noteID);
