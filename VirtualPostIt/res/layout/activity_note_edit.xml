@@ -2,52 +2,75 @@
     android:id="@+id/RLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-  
+
     <TextView
         android:id="@+id/lblNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Edit Note" />
+        android:paddingTop="10dp"
+        android:text="Edit Note"
+        android:textStyle="italic" />
 
     <EditText
         android:id="@+id/txtNote"
         android:layout_width="fill_parent"
-        android:layout_height="170px"
+        android:layout_height="200dp"
         android:layout_alignLeft="@+id/lblNote"
         android:layout_below="@+id/lblNote"
         android:layout_centerHorizontal="true"
+        android:gravity="top|left"
         android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lblAddress"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtNote"
+        android:layout_below="@+id/txtNote"
+        android:paddingTop="10dp"
+        android:text="Add address (optional)"
+        android:textStyle="italic" />
 
     <EditText
         android:id="@+id/txtAddress"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtNote"
-        android:layout_below="@+id/txtNote"
+        android:layout_alignLeft="@+id/lblAddress"
+        android:layout_below="@+id/lblAddress"
+        android:layout_toLeftOf="@+id/btnAddress"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/btnAddress"
         android:layout_width="125px"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/txtNote"
-        android:layout_below="@+id/txtNote"
-        android:text="Add place" />
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="125px"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtAddress"
-        android:text="Save" />
+        android:layout_alignRight="@+id/lblAddress"
+        android:layout_below="@+id/lblAddress"
+        android:paddingTop="10dp"
+        android:text="Search on map" />
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="125px"
+     <RelativeLayout
+        android:id="@+id/InnerRelativeLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/btnAddress"
-        android:layout_below="@+id/btnAddress"
-        android:text="Cancel" />
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="50dp" >
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Cancel" />
+    </RelativeLayout>
 
 </RelativeLayout>

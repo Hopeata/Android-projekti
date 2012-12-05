@@ -15,13 +15,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lblTimestamp"
-        android:clickable="true" />
+        android:paddingTop="10dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lblNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblAddress"
+        android:paddingTop="30dp"
+        android:text="Your note"
+        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/viewNote"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lblAddress"
+        android:layout_height="300dp"
+        android:layout_below="@+id/lblNote"
+        android:textSize="25sp"
         tools:context=".NoteEditActivity" />
 
     <RelativeLayout
@@ -32,21 +43,21 @@
 
         <Button
             android:id="@+id/btnEdit"
-            android:layout_width="125px"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="Edit" />
 
         <Button
             android:id="@+id/btnDelete"
-            android:layout_width="125px"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Delete" />
 
         <Button
             android:id="@+id/btnCancel"
-            android:layout_width="125px"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="Cancel" />

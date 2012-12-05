@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,14 +43,16 @@ public class NoteViewActivity extends Activity {
 		TextView textView = (TextView) findViewById(R.id.viewNote);
 		TextView timestampView = (TextView) findViewById(R.id.lblTimestamp);
 		TextView addressView = (TextView) findViewById(R.id.lblAddress);
-		textView.setTextSize(40);
 
 		if (note != null) {
 			textView.setText(note.getContent());
 			timestampView.setText(SDF.format(note.getTimestamp()));
 			final String address = note.getAddress();
 			if (address != null) {
-				addressView.setText(address);
+				SpannableString content = new SpannableString(address);
+				content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+				addressView.setText(content);
+				addressView.setTextColor(Color.BLUE);
 				addressView.setOnClickListener(new View.OnClickListener() {
 
 					public void onClick(View v) {

@@ -34,8 +34,9 @@ public class NoteEditActivity extends Activity {
 
 		if (id != -1) {
 			editNote.setText(note.getContent());
+			editAddress.setText(note.getAddress());
 		}
-
+		
 		save.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
