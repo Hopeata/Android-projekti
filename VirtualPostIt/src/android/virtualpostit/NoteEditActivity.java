@@ -25,7 +25,7 @@ public class NoteEditActivity extends Activity {
 		setContentView(R.layout.activity_note_edit);
 
 		Intent intent = getIntent();
-		final int id = intent.getIntExtra(NoteViewActivity.EditID, -1);
+		final int id = intent.getIntExtra(NoteViewActivity.EDIT_ID, -1);
 		final Note note = PostIt.POST_IT_SERVICE.getNote(id);
 		Button save = (Button) findViewById(R.id.btnSave);
 		Button coordinates = (Button) findViewById(R.id.btnAddress);

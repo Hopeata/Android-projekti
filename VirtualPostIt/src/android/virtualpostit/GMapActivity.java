@@ -2,9 +2,10 @@ package android.virtualpostit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -62,60 +63,77 @@ public class GMapActivity extends MapActivity {
 
 		if (action.equals(GET_LOCATION_ACTION)) {
 
-			String address = intent.getStringExtra(NoteViewActivity.ADDRESS);
-			// String note = intent.getStringExtra(NoteViewActivity.CONTENT);
+			int noteId = intent.getIntExtra(NoteViewActivity.NOTE_ID, -1);
+			Note note = PostIt.POST_IT_SERVICE.getNote(noteId);
+			NotePopUpItemizedOverlay notePopUpOverlay = getNotePopUpOverlay(mc,
+					Arrays.asList(note));
+			if (notePopUpOverlay != null) {
+				listOfOverlays.add(notePopUpOverlay);
+			}
 
-			GeoPoint p = getLocationFromAddress(address);
+			GeoPoint p = getLocationFromAddress(note.getAddress());
 			mc.animateTo(p);
 
-			// ---Add a location marker---
-			MapOverlay mapOverlay = new MapOverlay();
-			mapOverlay.p = p;
-			listOfOverlays.add(mapOverlay);
-
-			mapView.invalidate();
-
 		} else if (action.equals(SELECT_LOCATION_ACTION)) {
-			MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
-					mapView) {
-				public synchronized void onLocationChanged(Location location) {
-					super.onLocationChanged(location);
-					int lat = (int) (location.getLatitude() * 1E6);
-					int lng = (int) (location.getLongitude() * 1E6);
-					GeoPoint point = new GeoPoint(lat, lng);					
-					mc.animateTo(point);
-				};
-			};
-			myLocationOverlay.enableMyLocation();
-			listOfOverlays.add(myLocationOverlay);
-			
-			
+			listOfOverlays.add(getMyLocationOverlay(mc));
+
 			SelectionMapOverlay selectionMapOverlay = new SelectionMapOverlay();
 			selectionMapOverlay.setGestureDetector(new GestureDetector(
 					new MapTouchDetector()));
 			listOfOverlays.add(selectionMapOverlay);
 
 		} else if (action.equals(NOTES_LOCATION_ACTION)) {
-			Drawable drawable = getResources().getDrawable(R.drawable.pushpin);
-			NotePopUpItemizedOverlay itemizedOverlay = new NotePopUpItemizedOverlay(drawable, mapView);
+			listOfOverlays.add(getMyLocationOverlay(mc));
 
-			
-			
-			GeoPoint point = new GeoPoint((int)(51.5174723*1E6),(int)(-0.0899537*1E6));
-			OverlayItem overlayItem = new OverlayItem(point, "Tomorrow Never Dies (1997)", 
-					"(M gives Bond his mission in Daimler car)");
-			itemizedOverlay.addOverlay(overlayItem);
-			
-			GeoPoint point2 = new GeoPoint((int)(51.515259*1E6),(int)(-0.086623*1E6));
-			OverlayItem overlayItem2 = new OverlayItem(point2, "GoldenEye (1995)", 
-					"(Interiors Russian defence ministry council chambers in St Petersburg)");		
-			itemizedOverlay.addOverlay(overlayItem2);
-			
-			listOfOverlays.add(itemizedOverlay);
-			
-			mc.animateTo(point2);
+			List<Note> notes = PostIt.POST_IT_SERVICE.getAllNotes();
+			NotePopUpItemizedOverlay notePopUpOverlay = getNotePopUpOverlay(mc,
+					notes);
+			if (notePopUpOverlay != null) {
+				listOfOverlays.add(notePopUpOverlay);
+			}
 		}
 
+	}
+
+	private NotePopUpItemizedOverlay getNotePopUpOverlay(
+			final MapController mc, List<Note> notes) {
+
+		Drawable drawable = getResources().getDrawable(R.drawable.pushpin);
+		NotePopUpItemizedOverlay notePopUpOverlay = new NotePopUpItemizedOverlay(
+				drawable, mapView);
+
+		boolean notesAdded = false;
+
+		for (Note note : notes) {
+			if (note.getAddress() != null && !note.getAddress().equals("")) {
+				GeoPoint p = getLocationFromAddress(note.getAddress());
+				OverlayItem overlayItem = new OverlayItem(p, note.getContent(),
+						NoteViewActivity.SDF.format(note.getTimestamp()));
+				notePopUpOverlay.addOverlay(overlayItem);
+				notesAdded = true;
+			}
+		}
+		if (!notesAdded) {
+			return null;
+		}
+		return notePopUpOverlay;
+	}
+
+	private MyLocationOverlay getMyLocationOverlay(final MapController mc) {
+		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
+				mapView) {
+			private boolean firstFix = true;
+
+			public synchronized void onLocationChanged(Location location) {
+				super.onLocationChanged(location);
+				if (firstFix) {
+					mc.animateTo(this.getMyLocation());
+					firstFix = false;
+				}
+			};
+		};
+		myLocationOverlay.enableMyLocation();
+		return myLocationOverlay;
 	}
 
 	@Override

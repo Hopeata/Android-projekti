@@ -25,10 +25,9 @@ import android.support.v4.app.NavUtils;
 
 public class NoteViewActivity extends Activity {
 
-	public static final String EditID = "android.virtualpostit.NoteViewActivity.EditID";
-	public static final String ADDRESS = "android.virtualpostit.NoteViewActivity.Address";
-	public static final String CONTENT = "android.virtualpostit.NoteViewActivity.Content";
-	private static final SimpleDateFormat SDF = new SimpleDateFormat(
+	public static final String EDIT_ID = "android.virtualpostit.NoteViewActivity.EditID";
+	public static final String NOTE_ID = "android.virtualpostit.NoteViewActivity.NoteId";
+	public static final SimpleDateFormat SDF = new SimpleDateFormat(
 			"dd.MM.yyyy HH:mm");
 
 	@Override
@@ -58,8 +57,7 @@ public class NoteViewActivity extends Activity {
 					public void onClick(View v) {
 						Intent intent = new Intent(NoteViewActivity.this,
 								GMapActivity.class);
-						intent.putExtra(ADDRESS, address);
-						intent.putExtra(CONTENT, note.getContent());
+						intent.putExtra(NOTE_ID, note.getId());
 						intent.putExtra(GMapActivity.ACTION_TYPE, GMapActivity.GET_LOCATION_ACTION);
 						startActivity(intent); 
 					}
@@ -76,7 +74,7 @@ public class NoteViewActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(NoteViewActivity.this,
 						NoteEditActivity.class);
-				intent.putExtra(EditID, note.getId());
+				intent.putExtra(EDIT_ID, note.getId());
 				startActivity(intent);
 				finish();
 			}

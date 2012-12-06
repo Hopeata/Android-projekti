@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">VirtualPostIt</string>
-    <string name="title_activity_post_it">PostIt</string>
+    <string name="app_name">PostIt</string>
+    <string name="title_activity_post_it">All notes</string>
     <string name="title_activity_note_edit">Edit Note</string>
     <string name="title_activity_note_view">View Note</string>
     <string name="title_activity_gmap">Map</string>
