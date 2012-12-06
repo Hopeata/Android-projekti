@@ -34,7 +34,7 @@ public class PostIt extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		setTitle(R.string.title_activity_post_it);
 		POST_IT_SERVICE = new PostItService(getApplicationContext());
 
 	}

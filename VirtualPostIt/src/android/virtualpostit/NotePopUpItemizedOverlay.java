@@ -35,12 +35,6 @@ public class NotePopUpItemizedOverlay extends BalloonItemizedOverlay<OverlayItem
 		return m_overlays.size();
 	}
 
-	@Override
-	protected boolean onBalloonTap(int index, OverlayItem item) {
-		Toast.makeText(c, "onBalloonTap for overlay index " + index,
-				Toast.LENGTH_LONG).show();
-		return true;
-	}
 	
 }
  

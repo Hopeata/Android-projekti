@@ -15,7 +15,7 @@ public class NoteArrayAdapter extends ArrayAdapter<String> {
 
 	private final List<Note> notes;
 	private static final SimpleDateFormat SDF = new SimpleDateFormat("dd.MM.");
-	private static final int PREVIEW_CONTENT_LENGTH = 27;
+	private static final int PREVIEW_CONTENT_LENGTH = 30;
 
 	public NoteArrayAdapter(Context context, List<Note> notes) {
 		super(context, R.layout.list_row);
