@@ -48,13 +48,11 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	public void insertNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
-//		if (!note.getContent().equals("")) {
 			cv.put(NOTE_TABLE_CONTENT, note.getContent());
 			cv.put(NOTE_TABLE_ADDRESS, note.getAddress());
 			cv.put(NOTE_TABLE_TS,
 					SQL_DATE_FORMATTER.format(note.getTimestamp()));
 			db.insert(NOTE_TABLE, null, cv);
-//		}
 		db.close();
 	}
 

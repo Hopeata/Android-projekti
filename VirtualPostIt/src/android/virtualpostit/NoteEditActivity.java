@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class NoteEditActivity extends Activity {
 
@@ -42,14 +43,21 @@ public class NoteEditActivity extends Activity {
 			public void onClick(View v) {
 
 				if (id == -1) {
-					PostIt.POST_IT_SERVICE.makeNewNote(editNote.getText()
-							.toString(), editAddress.getText().toString());
+					String noteText = editNote.getText().toString();
+					if (!noteText.equals("")) {
+					PostIt.POST_IT_SERVICE.makeNewNote(noteText, editAddress.getText().toString());
+					finish();
+					} else {
+						Toast toast = Toast.makeText(getApplicationContext(), "Can't save empty note",
+								Toast.LENGTH_LONG);
+						toast.show();
+					}
 				} else {
 					note.setContent(editNote.getText().toString());
 					note.setAddress(editAddress.getText().toString());
 					PostIt.POST_IT_SERVICE.updateNote(note);
+					finish();
 				}
-				finish();
 
 			}
 		});

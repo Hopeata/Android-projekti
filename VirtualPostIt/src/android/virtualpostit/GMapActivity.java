@@ -21,12 +21,14 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MotionEvent;
+import android.virtualpostit.MyLocation.LocationResult;
 import android.widget.Toast;
 
 public class GMapActivity extends MapActivity {
@@ -72,7 +74,23 @@ public class GMapActivity extends MapActivity {
 			mapView.invalidate();
 
 		} else if (action.equals(SELECT_LOCATION_ACTION)) {
+/*			MyLocationOverlay mMyLocationOverlay = new MyLocationOverlay(this,mapView); 
+			mMyLocationOverlay.enableMyLocation(); 
+			listOfOverlays.add(mMyLocationOverlay); */
+			LocationResult locationResult = new LocationResult(){
+			    @Override
+			    public void gotLocation(Location location){
+			        //Got the location!
+			    	MapController mapController = mapView.getController();
+			    	int lat = (int) (location.getLatitude() * 1E6);
+			        int lng = (int) (location.getLongitude() * 1E6);
+			        GeoPoint point = new GeoPoint(lat, lng);
+			    	mapController.setCenter(point);
+			    }
+			};
 			
+			MyLocation myLocation = new MyLocation();
+			myLocation.getLocation(this, locationResult);
 			SelectionMapOverlay selectionMapOverlay = new SelectionMapOverlay();
 			selectionMapOverlay.setGestureDetector(new GestureDetector(new MapTouchDetector()));
 			listOfOverlays.add(selectionMapOverlay);
