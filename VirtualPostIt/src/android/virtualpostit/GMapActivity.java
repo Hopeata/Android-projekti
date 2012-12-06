@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -12,6 +13,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -28,7 +31,6 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MotionEvent;
-import android.virtualpostit.MyLocation.LocationResult;
 import android.widget.Toast;
 
 public class GMapActivity extends MapActivity {
@@ -36,6 +38,7 @@ public class GMapActivity extends MapActivity {
 	public static final String ACTION_TYPE = "android.virtualpostit.GMapActivity.actionType";
 	public static final String GET_LOCATION_ACTION = "get location";
 	public static final String SELECT_LOCATION_ACTION = "select location";
+	public static final String NOTES_LOCATION_ACTION = "notes location";
 	private static Geocoder coder;
 	private MapView mapView;
 
@@ -50,10 +53,12 @@ public class GMapActivity extends MapActivity {
 		Intent intent = getIntent();
 		String action = intent.getStringExtra(ACTION_TYPE);
 
-		List<Overlay> listOfOverlays = mapView.getOverlays();
+		final List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
 
 		coder = new Geocoder(this);
+		final MapController mc = mapView.getController();
+		mc.setZoom(17);
 
 		if (action.equals(GET_LOCATION_ACTION)) {
 
@@ -61,10 +66,7 @@ public class GMapActivity extends MapActivity {
 			// String note = intent.getStringExtra(NoteViewActivity.CONTENT);
 
 			GeoPoint p = getLocationFromAddress(address);
-			MapController mc = mapView.getController();
-
 			mc.animateTo(p);
-			mc.setZoom(17);
 
 			// ---Add a location marker---
 			MapOverlay mapOverlay = new MapOverlay();
@@ -74,31 +76,47 @@ public class GMapActivity extends MapActivity {
 			mapView.invalidate();
 
 		} else if (action.equals(SELECT_LOCATION_ACTION)) {
-/*			MyLocationOverlay mMyLocationOverlay = new MyLocationOverlay(this,mapView); 
-			mMyLocationOverlay.enableMyLocation(); 
-			listOfOverlays.add(mMyLocationOverlay); */
-			LocationResult locationResult = new LocationResult(){
-			    @Override
-			    public void gotLocation(Location location){
-			        //Got the location!
-			    	MapController mapController = mapView.getController();
-			    	int lat = (int) (location.getLatitude() * 1E6);
-			        int lng = (int) (location.getLongitude() * 1E6);
-			        GeoPoint point = new GeoPoint(lat, lng);
-			    	mapController.setCenter(point);
-			    }
+			MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
+					mapView) {
+				public synchronized void onLocationChanged(Location location) {
+					super.onLocationChanged(location);
+					int lat = (int) (location.getLatitude() * 1E6);
+					int lng = (int) (location.getLongitude() * 1E6);
+					GeoPoint point = new GeoPoint(lat, lng);					
+					mc.animateTo(point);
+				};
 			};
+			myLocationOverlay.enableMyLocation();
+			listOfOverlays.add(myLocationOverlay);
 			
-			MyLocation myLocation = new MyLocation();
-			myLocation.getLocation(this, locationResult);
+			
 			SelectionMapOverlay selectionMapOverlay = new SelectionMapOverlay();
-			selectionMapOverlay.setGestureDetector(new GestureDetector(new MapTouchDetector()));
+			selectionMapOverlay.setGestureDetector(new GestureDetector(
+					new MapTouchDetector()));
 			listOfOverlays.add(selectionMapOverlay);
 
+		} else if (action.equals(NOTES_LOCATION_ACTION)) {
+			Drawable drawable = getResources().getDrawable(R.drawable.pushpin);
+			NotePopUpItemizedOverlay itemizedOverlay = new NotePopUpItemizedOverlay(drawable, mapView);
+
+			
+			
+			GeoPoint point = new GeoPoint((int)(51.5174723*1E6),(int)(-0.0899537*1E6));
+			OverlayItem overlayItem = new OverlayItem(point, "Tomorrow Never Dies (1997)", 
+					"(M gives Bond his mission in Daimler car)");
+			itemizedOverlay.addOverlay(overlayItem);
+			
+			GeoPoint point2 = new GeoPoint((int)(51.515259*1E6),(int)(-0.086623*1E6));
+			OverlayItem overlayItem2 = new OverlayItem(point2, "GoldenEye (1995)", 
+					"(Interiors Russian defence ministry council chambers in St Petersburg)");		
+			itemizedOverlay.addOverlay(overlayItem2);
+			
+			listOfOverlays.add(itemizedOverlay);
+			
+			mc.animateTo(point2);
 		}
 
 	}
-
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -202,9 +220,11 @@ public class GMapActivity extends MapActivity {
 					}
 				}
 			}
-			Intent returnIntent = new Intent(GMapActivity.this, NoteEditActivity.class);
+			Intent returnIntent = new Intent(GMapActivity.this,
+					NoteEditActivity.class);
 			returnIntent.putExtra(NoteEditActivity.ADDRESS, add);
-			setResult(NoteEditActivity.SELECT_LOCATION_REQUEST_CODE, returnIntent);
+			setResult(NoteEditActivity.SELECT_LOCATION_REQUEST_CODE,
+					returnIntent);
 			finish();
 			return true;
 		}

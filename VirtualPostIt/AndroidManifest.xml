@@ -25,21 +25,21 @@
             android:label="@string/title_activity_note_edit" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.virtualpostit.PostIt" />
+                android:value=".PostIt" />
         </activity>
         <activity
             android:name=".NoteViewActivity"
             android:label="@string/title_activity_note_view" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.virtualpostit.NoteActivity" />
+                android:value=".NoteActivity" />
         </activity>
         <activity
             android:name=".GMapActivity"
             android:label="@string/title_activity_gmap" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.virtualpostit.PostIt" />
+                android:value=".PostIt" />
         </activity>
 
         <uses-library android:name="com.google.android.maps" />

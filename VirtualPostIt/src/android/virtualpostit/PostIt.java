@@ -73,6 +73,11 @@ public class PostIt extends ListActivity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.menu_map_view:
+			Intent intent = new Intent(PostIt.this,
+					GMapActivity.class);
+			intent.putExtra(GMapActivity.ACTION_TYPE,
+					GMapActivity.NOTES_LOCATION_ACTION);
+			startActivity(intent);
 			return true;
 		case R.id.menu_quit:
 			this.finish();
