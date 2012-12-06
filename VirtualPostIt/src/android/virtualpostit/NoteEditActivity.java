@@ -86,9 +86,4 @@ public class NoteEditActivity extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_note, menu);
-		return true;
-	}
 }

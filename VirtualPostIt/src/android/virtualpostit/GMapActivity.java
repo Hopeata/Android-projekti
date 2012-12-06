@@ -81,11 +81,6 @@ public class GMapActivity extends MapActivity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_gmap, menu);
-		return true;
-	}
 
 	@Override
 	protected boolean isRouteDisplayed() {

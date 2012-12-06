@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Arrays;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PostIt extends Activity {
+public class PostIt extends ListActivity {
 
 	private ListView mainListView;
 	private NoteArrayAdapter listAdapter;
@@ -36,58 +37,49 @@ public class PostIt extends Activity {
 
 		POST_IT_SERVICE = new PostItService(getApplicationContext());
 
-		setContentView(R.layout.activity_post_it);
-
 	}
 
 	@Override
 	protected void onResume() {
-		// Find the ListView resource.
-		mainListView = (ListView) findViewById(R.id.mainListView);
-
 		List<Note> allNotes = POST_IT_SERVICE.getAllNotes();
 
 		listAdapter = new NoteArrayAdapter(this, allNotes);
-
-		mainListView.setAdapter(listAdapter);
-
-		mainListView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Intent intent;
-				int noteID = listAdapter.getNote(position).getId();
-				if (noteID == -1) {
-					intent = new Intent(PostIt.this, NoteEditActivity.class);
-				} else {
-					intent = new Intent(PostIt.this, NoteViewActivity.class);
-
-				}
-				intent.putExtra(ID, noteID);
-				startActivity(intent);
-			}
-		});
-
+		setListAdapter(listAdapter);
 		super.onResume();
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Intent intent;
+		int noteID = listAdapter.getNote(position).getId();
+		if (noteID == -1) {
+			intent = new Intent(PostIt.this, NoteEditActivity.class);
+		} else {
+			intent = new Intent(PostIt.this, NoteViewActivity.class);
+
+		}
+		intent.putExtra(ID, noteID);
+		startActivity(intent);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_post_it, menu);
-        menu.add("Show notes around me");
 		return true;
 	}
-	
-/*	@Override
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	            return true;
-	        case R.id.menu_settings:
-	            this.finish();
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.menu_map_view:
+			return true;
+		case R.id.menu_quit:
+			this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
-*/
+
 }
