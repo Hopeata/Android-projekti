@@ -42,6 +42,7 @@ public class GMapActivity extends MapActivity {
 	public static final String NOTES_LOCATION_ACTION = "notes location";
 	private static Geocoder coder;
 	private MapView mapView;
+	private List<Toast> toasts;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class GMapActivity extends MapActivity {
 
 		Intent intent = getIntent();
 		String action = intent.getStringExtra(ACTION_TYPE);
+		
+		toasts = new ArrayList<Toast>();
 
 		final List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
@@ -70,9 +73,10 @@ public class GMapActivity extends MapActivity {
 			if (notePopUpOverlay != null) {
 				listOfOverlays.add(notePopUpOverlay);
 			}
-
 			GeoPoint p = getLocationFromAddress(note.getAddress());
-			mc.animateTo(p);
+			if (p != null) {
+				mc.animateTo(p);
+			}
 
 		} else if (action.equals(SELECT_LOCATION_ACTION)) {
 			listOfOverlays.add(getMyLocationOverlay(mc));
@@ -92,6 +96,8 @@ public class GMapActivity extends MapActivity {
 				listOfOverlays.add(notePopUpOverlay);
 			}
 		}
+		
+		showToasts();
 
 	}
 
@@ -107,16 +113,33 @@ public class GMapActivity extends MapActivity {
 		for (Note note : notes) {
 			if (note.getAddress() != null && !note.getAddress().equals("")) {
 				GeoPoint p = getLocationFromAddress(note.getAddress());
-				OverlayItem overlayItem = new OverlayItem(p, note.getContent(),
-						NoteViewActivity.SDF.format(note.getTimestamp()));
-				notePopUpOverlay.addOverlay(overlayItem);
-				notesAdded = true;
+				if (p != null) {
+					OverlayItem overlayItem = new OverlayItem(p,
+							note.getContent(), NoteViewActivity.SDF.format(note
+									.getTimestamp()));
+					notePopUpOverlay.addOverlay(overlayItem);
+					notesAdded = true;
+				} else {
+					addInvalidLocationToast(note.getAddress());
+				}
 			}
 		}
 		if (!notesAdded) {
 			return null;
 		}
 		return notePopUpOverlay;
+	}
+
+	private void addInvalidLocationToast(String address) {
+		Toast toast = Toast.makeText(getApplicationContext(),
+				"Sorry, can't find " + address, Toast.LENGTH_LONG);
+		toasts.add(toast);
+	}
+
+	private void showToasts() {
+		for (Toast toast : toasts) {
+			toast.show();
+		}
 	}
 
 	private MyLocationOverlay getMyLocationOverlay(final MapController mc) {
@@ -151,7 +174,7 @@ public class GMapActivity extends MapActivity {
 			throw new RuntimeException(e);
 		}
 
-		if (addresses == null) {
+		if (addresses == null || addresses.isEmpty()) {
 			return null;
 		}
 
