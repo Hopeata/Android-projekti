@@ -3,9 +3,7 @@ package android.virtualpostit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -14,9 +12,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,13 +22,17 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.widget.Toast;
+
+/**
+ * @author Valeria
+ * T‰m‰ luokka on karttan‰kym‰, joka toimii sek‰ osoitteenetsint‰alustana ett‰ yhden tai kaikkien 
+ * muistilappujen osoitteita n‰ytett‰ess‰
+ */
 
 public class GMapActivity extends MapActivity {
 
@@ -44,6 +44,11 @@ public class GMapActivity extends MapActivity {
 	private MapView mapView;
 	private List<Toast> toasts;
 
+	
+	/* (non-Javadoc)
+	 * @see com.google.android.maps.MapActivity#onCreate(android.os.Bundle)
+	 * T‰ss‰ metodissa m‰‰ritell‰‰n, milt‰ karttan‰kym‰ n‰ytt‰‰ ilmestyess‰‰n
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,6 +106,12 @@ public class GMapActivity extends MapActivity {
 
 	}
 
+	/**
+	 * @param mc
+	 * @param notes
+	 * @return NotePopUpItemizedOverlay, jos osoitteita on.
+	 * T‰ss‰ luokassa generoidaan ja lis‰t‰‰n markkeri kartalle
+	 */
 	private NotePopUpItemizedOverlay getNotePopUpOverlay(
 			final MapController mc, List<Note> notes) {
 
@@ -130,6 +141,10 @@ public class GMapActivity extends MapActivity {
 		return notePopUpOverlay;
 	}
 
+	/**
+	 * @param address
+	 * T‰m‰ metodi generoi k‰ytt‰j‰lle Toastin, joka varoittaa kun osoitetta ei lˆydy
+	 */
 	private void addInvalidLocationToast(String address) {
 		Toast toast = Toast.makeText(getApplicationContext(),
 				"Sorry, can't find " + address, Toast.LENGTH_LONG);
@@ -142,6 +157,11 @@ public class GMapActivity extends MapActivity {
 		}
 	}
 
+	/**
+	 * @param mc
+	 * @return MyLocationOverlay
+	 * T‰ss‰ metodissa etsit‰‰n k‰ytt‰j‰n oma sijainti. 
+	 */
 	private MyLocationOverlay getMyLocationOverlay(final MapController mc) {
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
 				mapView) {
@@ -165,6 +185,11 @@ public class GMapActivity extends MapActivity {
 		return false;
 	}
 
+	/**
+	 * @param address
+	 * @return Geopoint jos sellainen lˆytyy
+	 * T‰ss‰ metodissa k‰sitell‰‰n String-muotoinen osoite ja muutetaan se Geopointiksi
+	 */
 	private static GeoPoint getLocationFromAddress(String address) {
 		List<Address> addresses;
 
@@ -189,6 +214,10 @@ public class GMapActivity extends MapActivity {
 
 	}
 
+	/**
+	 * @author Valeria
+	 * T‰m‰ luokka piirt‰‰ markkerin kartalle
+	 */
 	class MapOverlay extends Overlay {
 
 		private GeoPoint p = null;
@@ -198,11 +227,9 @@ public class GMapActivity extends MapActivity {
 				long when) {
 			super.draw(canvas, mapView, shadow);
 
-			// ---translate the GeoPoint to screen pixels---
 			Point screenPts = new Point();
 			mapView.getProjection().toPixels(p, screenPts);
 
-			// ---add the marker---
 			Bitmap bmp = BitmapFactory.decodeResource(getResources(),
 					R.drawable.pushpin);
 			canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 32, null);
@@ -210,13 +237,16 @@ public class GMapActivity extends MapActivity {
 		}
 	}
 
+	/**
+	 * @author Valeria
+	 * 
+	 */
 	class SelectionMapOverlay extends Overlay {
 
 		private GestureDetector gestureDetector;
 
 		@Override
 		public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-			// when the user lifts its finger
 			if (gestureDetector.onTouchEvent(event)) {
 				return true;
 			}
@@ -233,6 +263,10 @@ public class GMapActivity extends MapActivity {
 		}
 	}
 
+	/**
+	 * @author Valeria
+	 * T‰m‰ luokka toteuttaa niin kutsutun reverse geocodingin, eli koordinaateista osoitteeksi
+	 */
 	class MapTouchDetector extends SimpleOnGestureListener {
 
 		@Override
@@ -240,8 +274,6 @@ public class GMapActivity extends MapActivity {
 
 			GeoPoint p = mapView.getProjection().fromPixels((int) event.getX(),
 					(int) event.getY());
-
-			// ---reverse geocoding---
 
 			List<Address> addresses;
 			try {

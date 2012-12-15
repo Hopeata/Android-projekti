@@ -1,27 +1,15 @@
 package android.virtualpostit;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
-
-import com.google.android.maps.GeoPoint;
-
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class NoteViewActivity extends Activity {
 

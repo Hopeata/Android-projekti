@@ -2,6 +2,10 @@ package android.virtualpostit;
 
 import java.util.Date;
 
+/**
+ * @author Valeria
+ * Tämä luokka on yksittäinen muistilappu ja sen sisältämät tiedot
+ */
 public class Note implements Comparable<Note> {
 	
 	private int id;

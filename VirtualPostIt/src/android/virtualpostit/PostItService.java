@@ -1,11 +1,14 @@
 package android.virtualpostit;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
 
+/**
+ * @author Valeria
+ * Tämä luokka toimii linkkinä StorageManagerin ja käyttöliittymän välillä.
+ */
 public class PostItService {
 
 	private StorageManager sm;

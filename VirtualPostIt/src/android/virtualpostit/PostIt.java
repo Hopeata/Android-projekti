@@ -23,6 +23,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * @author Valeria
+ * T‰m‰ luokka toteuttaa viestien listan‰kym‰n
+ */
 public class PostIt extends ListActivity {
 
 	private ListView mainListView;
@@ -30,7 +34,6 @@ public class PostIt extends ListActivity {
 	public static PostItService POST_IT_SERVICE;
 	public static String ID = "android.virtualpostit.PostIt.ID";
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,6 +42,10 @@ public class PostIt extends ListActivity {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 * T‰m‰ metodin avulla listan‰kym‰‰n palatessa lista p‰ivittyy
+	 */
 	@Override
 	protected void onResume() {
 		List<Note> allNotes = POST_IT_SERVICE.getAllNotes();
@@ -48,6 +55,11 @@ public class PostIt extends ListActivity {
 		super.onResume();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.ListActivity#onListItemClick(android.widget.ListView, android.view.View, int, long)
+	 * T‰ss‰ metodissa huolehditaan siit‰, ett‰ rivi‰ painaessa joko siirryt‰‰n uuden 
+	 * viestin luontiin tai itse viestin tarkastelun‰kym‰‰n
+	 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent;
@@ -68,6 +80,10 @@ public class PostIt extends ListActivity {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 * T‰ss‰ toteutetaan menun valinnat.
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection

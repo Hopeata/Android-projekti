@@ -11,6 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * @author Valeria
+ * Tämä apuluokka määrittelee, miltä viestin sisältö näyttää listanäkymässä
+ */
 public class NoteArrayAdapter extends ArrayAdapter<String> {
 
 	private final List<Note> notes;
@@ -28,6 +32,11 @@ public class NoteArrayAdapter extends ArrayAdapter<String> {
 		return notes.size();
 	}
 
+	/**
+	 * @param note
+	 * @return Listanäkymässä näkyvä teksti
+	 * Tässä metodissa luodaan se tekstinpätkä muistutuksesta, joka näkyy listassa
+	 */
 	private String getPreviewText(Note note) {
 		String previewText = note.getTimestamp() != null ? SDF.format(note
 				.getTimestamp()) + " " : "";
@@ -45,6 +54,10 @@ public class NoteArrayAdapter extends ArrayAdapter<String> {
 		return notes.get(position);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+	 * Tämän metodin avulla saadaan myös nuppineula näkyviin listaan
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) getContext()

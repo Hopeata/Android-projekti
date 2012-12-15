@@ -82,6 +82,10 @@ public class NoteEditActivity extends Activity {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 * T‰m‰n metodin avulla sijoitetaan karttan‰kym‰st‰ saatu osoite osoite-kentt‰‰n
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SELECT_LOCATION_REQUEST_CODE && data != null) {

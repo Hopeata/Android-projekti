@@ -10,6 +10,10 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
+/**
+ * @author Valeria
+ * Tämä on apuluokka info window-ikkunan luomista varten
+ */
 public class NotePopUpItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> m_overlays = new ArrayList<OverlayItem>();

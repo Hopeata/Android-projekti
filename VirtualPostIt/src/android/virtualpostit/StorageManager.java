@@ -13,6 +13,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author Valeria
+ * T‰m‰ luokka hoitaa vuorovaikutuksen tietokannan kanssa
+ */
 public class StorageManager extends SQLiteOpenHelper {
 
 	private static final String SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
@@ -46,6 +50,10 @@ public class StorageManager extends SQLiteOpenHelper {
 
 	}
 
+	/**
+	 * @param note
+	 * T‰ss‰ metodissa tallennetaan uuden Noten tiedot kantaan
+	 */
 	public void insertNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 			cv.put(NOTE_TABLE_CONTENT, note.getContent());
@@ -56,6 +64,11 @@ public class StorageManager extends SQLiteOpenHelper {
 		db.close();
 	}
 
+	/**
+	 * @param note
+	 * @return p‰ivitetty tietokanta
+	 * T‰ss‰ metodissa p‰ivitet‰‰n yksitt‰isen Noten tiedot kantaan
+	 */
 	public int updateNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		cv.put(NOTE_TABLE_CONTENT, note.getContent());
@@ -65,6 +78,10 @@ public class StorageManager extends SQLiteOpenHelper {
 				new String[] { String.valueOf(note.getId()) });
 	}
 
+	/**
+	 * @param note
+	 * Poistetaan yksitt‰isen Noten tiedot kannasta
+	 */
 	public void deleteNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(NOTE_TABLE, NOTE_TABLE_ID + " = ?",
