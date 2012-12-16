@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * @author Valeria
+ * Tässä näkymäluokassa tapahtuu muistutusten luonti ja päivitys
+ */
 public class NoteEditActivity extends Activity {
 
 	public static final String ADDRESS = "android.virtualpostit.NoteEditActivity.ADDRESS";

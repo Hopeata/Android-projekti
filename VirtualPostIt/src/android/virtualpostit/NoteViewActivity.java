@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * @author Valeria
+ * Tässä luokassa hoidetaan viestin katselumahdollisuus
+ */
 public class NoteViewActivity extends Activity {
 
 	public static final String EDIT_ID = "android.virtualpostit.NoteViewActivity.EditID";
